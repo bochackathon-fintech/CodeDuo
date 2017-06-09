@@ -1,0 +1,6 @@
+﻿BankId: bda8eb884efcef7082792d45
+
+AccountInfo
+ label:
+ id:bda8eb884efcea209b2a6240
+
