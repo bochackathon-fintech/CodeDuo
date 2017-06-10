@@ -12,6 +12,8 @@ namespace CodeDuo.MobileApi.DataAccess
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class CodeDuoTestEntities : DbContext
     {
@@ -28,5 +30,14 @@ namespace CodeDuo.MobileApi.DataAccess
         public virtual DbSet<Merchant> Merchants { get; set; }
         public virtual DbSet<Transaction> Transactions { get; set; }
         public virtual DbSet<User> Users { get; set; }
+    
+        public virtual ObjectResult<GetTransactionListByUserId_Result> GetTransactionListByUserId(Nullable<int> userId)
+        {
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("userId", userId) :
+                new ObjectParameter("userId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetTransactionListByUserId_Result>("GetTransactionListByUserId", userIdParameter);
+        }
     }
 }

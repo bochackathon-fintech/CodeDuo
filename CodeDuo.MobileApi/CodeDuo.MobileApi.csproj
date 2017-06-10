@@ -143,8 +143,12 @@
     <Compile Include="Controllers\AcceptPaymentsController.cs" />
     <Compile Include="Controllers\AccountsController.cs" />
     <Compile Include="Controllers\TransfersController.cs" />
+    <Compile Include="Controllers\TransactionsViewController.cs" />
     <Compile Include="DataAccess\bocApi.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="DataAccess\GetTransactionListByUserId_Result.cs">
+      <DependentUpon>UsersModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataAccess\Merchant.cs">
       <DependentUpon>UsersModel.tt</DependentUpon>
     </Compile>

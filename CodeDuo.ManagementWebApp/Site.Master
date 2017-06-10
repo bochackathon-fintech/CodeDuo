@@ -52,10 +52,10 @@
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <li><a runat="server" href="~/">Home</a></li>
-                        <li><a runat="server" href="~/Administration/Index">Administration</a></li>
-                        <li><a runat="server" href="~/Contact">Merchants</a></li>
-                         <li><a runat="server" href="~/Contact">Transactions</a></li>
-                          <li><a runat="server" href="~/Simulator/Index">Simulator</a></li>
+                        <li><a runat="server" href="~/Administration/ViewUsers">Users</a></li>
+                        <li><a runat="server" href="~/Administration/ViewMerchants">Merchants</a></li>
+                         <li><a runat="server" href="~/Transactions/ViewTransactions">Transactions</a></li>
+                          <li><a runat="server" href="~/Simulator/QRGenerator">Simulator</a></li>
                     </ul>
                 </div>
             </div>
@@ -65,7 +65,7 @@
             </asp:ContentPlaceHolder>
             <hr />
             <footer>
-                <p>&copy; <%: DateTime.Now.Year %> - My ASP.NET Application</p>
+                <p>&copy; <%: DateTime.Now.Year %> - AllPay Application Manager</p>
             </footer>
         </div>
 

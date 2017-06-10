@@ -25,6 +25,7 @@ namespace CodeDuo.MobileApi.Controllers
             }
 
             string fromaccountid = user.AccountId; //"e863600a86656f979d646e83";
+
             string toaccountid = merchant.AccountId;//"e863600a86656f979d646e83";
             var transfer = DataAccess.bocApi.Transfer(fromaccountid, toaccountid, amount, reference);
             // var accountBalance = DataAccess.bocApi.GetAccountBalance(id, "5710bba5d42604e4072d1e92");
@@ -34,6 +35,33 @@ namespace CodeDuo.MobileApi.Controllers
             }
 
             //Store Transaction details in SQL database
+            // insert
+            using (DataAccess.CodeDuoTestEntities entities = new DataAccess.CodeDuoTestEntities())
+            {
+                DataAccess.Transaction newTransaction = new DataAccess.Transaction();
+                newTransaction.Amount = (decimal)amount;
+                newTransaction.CreatedDate = DateTime.Now;
+                newTransaction.Currency = "EUR";
+                newTransaction.FromAccountId = user.IBAN;
+                newTransaction.MerchantId = merchant.Id;
+                newTransaction.MerchantReference = reference;
+                newTransaction.Status = transfer.status;
+                newTransaction.ToAccountId = merchant.IBAN;
+                newTransaction.UserId = user.Id;
+                var customers = entities.Transactions.Add(newTransaction);
+
+                entities.SaveChanges();
+            }
+            if (transfer.status == "COMPLETED")
+            {
+                transfer.status = "SUCCESS";
+            }
+            else
+            {
+                transfer.status = "FAILED";
+            }
+
+
             return Ok(transfer);
         }
     }
