@@ -39,7 +39,7 @@ namespace CodeDuo.ManagementWebApp.Simulator
         }
         protected void btnTrxP2P_Click (object sender, EventArgs e)
         {
-            string code =string.Concat(this.txtUserId.Text,";", this.txtp2pAmount.Text,";",this.txtp2pReference);
+            string code =string.Concat(this.txtUserId.Text,";", this.txtp2pAmount.Text,";",this.txtp2pReference.Text,";",this.ddlp2pCurrency.SelectedValue);
             QRCodeGenerator qrGenerator = new QRCodeGenerator();
             QRCodeData qrCodeData = qrGenerator.CreateQrCode(code, QRCodeGenerator.ECCLevel.Q);
             System.Web.UI.WebControls.Image imgBarCode = new System.Web.UI.WebControls.Image();
@@ -60,7 +60,7 @@ namespace CodeDuo.ManagementWebApp.Simulator
         }
         protected void btnTrxP2B_Click(object sender, EventArgs e)
         {
-            string code = string.Concat(this.txtmerchantid.Text, ";", this.txtp2bAmount.Text, ";",this.txtp2bReference);
+            string code = string.Concat(this.txtp2bmerchantid.Text, ";", this.txtp2bAmount.Text, ";",this.txtp2bReference.Text, ";", this.ddlp2bCurrency.SelectedValue);
             QRCodeGenerator qrGenerator = new QRCodeGenerator();
             QRCodeData qrCodeData = qrGenerator.CreateQrCode(code, QRCodeGenerator.ECCLevel.Q);
             System.Web.UI.WebControls.Image imgBarCode = new System.Web.UI.WebControls.Image();

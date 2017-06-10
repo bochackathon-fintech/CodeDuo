@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeDuo.MobileApi", "CodeDu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeDuo.MobileApi.Test", "CodeDuo.MobileApi.Test\CodeDuo.MobileApi.Test.csproj", "{101E70DD-11CD-4968-ADC0-50F5663CB318}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeDuo.MobileApiCore", "CodeDuo.MobileApiCore\CodeDuo.MobileApiCore.csproj", "{ADC1BFD5-504D-467E-A09F-E81981A5843D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{101E70DD-11CD-4968-ADC0-50F5663CB318}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{101E70DD-11CD-4968-ADC0-50F5663CB318}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{101E70DD-11CD-4968-ADC0-50F5663CB318}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADC1BFD5-504D-467E-A09F-E81981A5843D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADC1BFD5-504D-467E-A09F-E81981A5843D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADC1BFD5-504D-467E-A09F-E81981A5843D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADC1BFD5-504D-467E-A09F-E81981A5843D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

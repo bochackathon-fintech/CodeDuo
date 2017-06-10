@@ -121,6 +121,24 @@ namespace CodeDuo.ManagementWebApp.Simulator {
         protected global::System.Web.UI.WebControls.TextBox txtp2pReference;
         
         /// <summary>
+        /// lblp2pCurrency control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblp2pCurrency;
+        
+        /// <summary>
+        /// ddlp2pCurrency control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlp2pCurrency;
+        
+        /// <summary>
         /// btnTrxP2P control.
         /// </summary>
         /// <remarks>
@@ -148,13 +166,13 @@ namespace CodeDuo.ManagementWebApp.Simulator {
         protected global::System.Web.UI.WebControls.Label lblp2bMerchantID;
         
         /// <summary>
-        /// txtp2b control.
+        /// txtp2bmerchantid control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtp2b;
+        protected global::System.Web.UI.WebControls.TextBox txtp2bmerchantid;
         
         /// <summary>
         /// Label2 control.
@@ -191,6 +209,24 @@ namespace CodeDuo.ManagementWebApp.Simulator {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtp2bReference;
+        
+        /// <summary>
+        /// lblp2bCurrency control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblp2bCurrency;
+        
+        /// <summary>
+        /// ddlp2bCurrency control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlp2bCurrency;
         
         /// <summary>
         /// btnTrxP2B control.

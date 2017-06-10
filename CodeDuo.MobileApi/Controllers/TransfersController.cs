@@ -9,7 +9,7 @@ namespace CodeDuo.MobileApi.Controllers
 {
     public class TransfersController : ApiController
     {
-        public IHttpActionResult GetTransfer(string id, string merchantid, double amount, string reference)
+        public IHttpActionResult GetTransfer(string id, string merchantid, double amount, string reference, string currency)
         {
             // double amount = 12;
             //string reference = "testrransfer";

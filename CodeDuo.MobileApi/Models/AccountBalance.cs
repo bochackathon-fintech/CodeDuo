@@ -14,4 +14,5 @@ namespace CodeDuo.MobileApi.Models
         public string currency { get; set; }
 
     }
+    
 }

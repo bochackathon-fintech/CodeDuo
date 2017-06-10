@@ -22,8 +22,14 @@ namespace CodeDuo.MobileApi
 
             config.Routes.MapHttpRoute(
     name: "GetTransfer",
-    routeTemplate: "api/{controller}/{id}/{merchantid}/{amount}/{reference}"
+    routeTemplate: "api/{controller}/{id}/{merchantid}/{amount}/{reference}/{currency}"
 );
+
+            config.Routes.MapHttpRoute(
+name: "GetAccountBalance",
+routeTemplate: "api/{controller}/{id}/{currency}"
+);
+            
         }
     }
 }
