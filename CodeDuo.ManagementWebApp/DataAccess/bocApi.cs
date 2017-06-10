@@ -30,7 +30,8 @@ namespace CodeDuo.ManagementWebApp.DataAccess
 
             //var url = "http://localhost:8000/DEMOService/Client/156";
             var webrequest = (HttpWebRequest)System.Net.WebRequest.Create(uri);
-
+            webrequest.Headers.Add("Ocp-Apim-Subscription-Key", "");
+            webrequest.Headers.Add("Ocp-Apim-Subscription-Key", "c652825ba46c4101ade8dfb1ab1c5807");
             using (var response = webrequest.GetResponse())
             using (var reader = new StreamReader(response.GetResponseStream()))
             {

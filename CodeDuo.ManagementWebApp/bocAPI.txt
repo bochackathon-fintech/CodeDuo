@@ -1,6 +1,21 @@
 ﻿BankId: bda8eb884efcef7082792d45
 
-AccountInfo
+AccountInfo 01040939298400
  label:
  id:bda8eb884efcea209b2a6240
+ viewid:5710bba5d42604e4072d1e92
 
+ http://localhost:62417/api/Accounts/bda8eb884efcea209b2a6240
+
+ http://api.bocapi.net/v1/api/banks/bda8eb884efcef7082792d45/accounts/bda8eb884efcea209b2a6240/5710bba5d42604e4072d1e92/account"
+ http://api.bocapi.net/v1/api/banks/bda8eb884efcef7082792d45/accounts/bda8eb884efcea209b2a6240/5710bba5d42604e4072d1e92/account
+
+
+ 03440902116800
+ Accountid: bda8eb884efcea209b2a6287
+ http://api.bocapi.net/v1/api/banks/bda8eb884efcef7082792d45/accounts/bda8eb884efcea209b2a6287/5710bba5d42604e4072d1e92/account
+
+
+  03440902116800
+ Accountid: bda8eb884efcea209b2a6287
+ http://api.bocapi.net/v1/api/banks/bda8eb884efcea209b2a62a5/accounts/bda8eb884efcea209b2a6287/5710bba5d42604e4072d1e92/account
