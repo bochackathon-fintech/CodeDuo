@@ -19,6 +19,11 @@ namespace CodeDuo.MobileApi
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            config.Routes.MapHttpRoute(
+    name: "GetTransfer",
+    routeTemplate: "api/{controller}/{id}/{merchantid}/{amount}/{reference}"
+);
         }
     }
 }

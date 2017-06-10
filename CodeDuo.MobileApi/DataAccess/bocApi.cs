@@ -16,26 +16,10 @@ namespace CodeDuo.MobileApi.DataAccess
         static public Models.AccountBalance GetAccountBalance(string accountid, string viewid)
         {
 
-            //var client = new HttpClient();
-            //var queryString = HttpUtility.ParseQueryString(string.Empty);
+          
+            var uri = "http://api.bocapi.net/v1/api/banks/bda8eb884efcef7082792d45/accounts/" + accountid + "/" + viewid + "/account"; 
 
-
-
-            // Request headers
-            //client.DefaultRequestHeaders.Add("Auth-Provider-Name", "01040939298400");
-            //client.DefaultRequestHeaders.Add("Auth-ID", "123456789");
-            //client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", \");
-            //client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", "d4af6bd7a1164d8eb6c6fca3c72a809a");
-
-            // Request parameters
-            //queryString["subscription-key"] = "d4af6bd7a1164d8eb6c6fca3c72a809a";
-            // http://api.bocapi.net/v1/api/banks/bda8eb884efcef7082792d45/accounts/bda8eb884efcea209b2a6240/5710bba5d42604e4072d1e92/account
-            var uri = "http://api.bocapi.net/v1/api/banks/bda8eb884efcef7082792d45/accounts/" + accountid + "/" + viewid + "/account"; //?" + queryString;
-
-            //var response =  client.GetAsync(uri);
-
-
-            //var url = "http://localhost:8000/DEMOService/Client/156";
+        
             var webrequest = (HttpWebRequest)System.Net.WebRequest.Create(uri);
             webrequest.Headers.Add("Auth-Provider-Name", "01040939298400");
             webrequest.Headers.Add("Auth-ID", "123456789");
@@ -58,7 +42,7 @@ namespace CodeDuo.MobileApi.DataAccess
         }
 
 
-        static public Models.Transfer Transfer(string fromaccountid, string toaccountid, double amount)
+        static public Models.Transfer Transfer(string fromaccountid, string toaccountid, double amount,string reference)
         {
 
             var client = new HttpClient();
@@ -73,7 +57,7 @@ namespace CodeDuo.MobileApi.DataAccess
 
             // Request parameters
             //queryString["subscription-key"] = "{string}";
-            var uri = "http://api.bocapi.net/v1/api/banks/bda8eb884efcef7082792d45/accounts/ea67f7c3c695b3dc9c1afb37/make-transaction";
+            var uri = string.Format( "http://api.bocapi.net/v1/api/banks/bda8eb884efcef7082792d45/accounts/{0}/make-transaction",fromaccountid);
             var webrequest = (HttpWebRequest)System.Net.WebRequest.Create(uri);
             webrequest.Headers.Add("Track-ID", "4a9c41d5be483dd5bbbbaaaa");
             webrequest.Headers.Add("Auth-Provider-Name", "01040939298400");
@@ -81,7 +65,8 @@ namespace CodeDuo.MobileApi.DataAccess
             webrequest.Headers.Add("Ocp-Apim-Subscription-Key", "");
             webrequest.Headers.Add("Ocp-Apim-Subscription-Key", "d4af6bd7a1164d8eb6c6fca3c72a809a");
             //HttpResponseMessage response;
-            string body = "{ \"description\": \"test\" , \"challenge_type\": \"test\", \"from\": {\"account_id\": \"bda8eb884efcea209b2a6240\", \"bank_id\": \"bda8eb884efcef7082792d45\"  },  \"to\": {  \"account_id\": \"bda8eb884efcea209b2a6287\", \"bank_id\": \"bda8eb884efcef7082792d45\"  },  \"value\": {  \"currency\": \"EUR\", \"amount\": 10.0} }";
+            string body = "{ \"description\": \""+ reference + "\" , \"challenge_type\": \"" + reference + "\", \"from\": {\"account_id\": \"" + fromaccountid + "\", \"bank_id\": \"bda8eb884efcef7082792d45\"  },  \"to\": {  \"account_id\": \""+ toaccountid + "\", \"bank_id\": \"bda8eb884efcef7082792d45\"  },  \"value\": {  \"currency\": \"EUR\", \"amount\": "+amount.ToString().Replace(",",".")+"} }";//,,,,amount.ToString());
+         // string body = "{ \"description\": \"test\" , \"challenge_type\": \"test\", \"from\": {\"account_id\": \"ea67f7c3c695b3dc9c1afb37\", \"bank_id\": \"bda8eb884efcef7082792d45\"  },  \"to\": {  \"account_id\": \"bda8eb884efcea209b2a6287\", \"bank_id\": \"bda8eb884efcef7082792d45\"  },  \"value\": {  \"currency\": \"EUR\", \"amount\": 10.0} }";
             // Request body
             byte[] byteData = Encoding.UTF8.GetBytes(body);
             Models.Transfer transferResult = new Models.Transfer();
