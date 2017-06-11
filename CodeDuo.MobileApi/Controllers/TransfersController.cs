@@ -27,7 +27,19 @@ namespace CodeDuo.MobileApi.Controllers
             string fromaccountid = user.AccountId; //"e863600a86656f979d646e83";
 
             string toaccountid = merchant.AccountId;//"e863600a86656f979d646e83";
-            var transfer = DataAccess.bocApi.Transfer(fromaccountid, toaccountid, amount, reference);
+            var transfer = new Models.Transfer();
+            switch (currency)
+            {
+                case "EUR":
+                    transfer = DataAccess.bocApi.Transfer(fromaccountid, toaccountid, amount, reference);
+                    break;
+                case "BTC":
+                    transfer = DataAccess.bitCoinAPI.MakeCryptoTransfer(fromaccountid, toaccountid, amount, reference);
+                    break;
+                default:
+                    break;
+            }
+           
             // var accountBalance = DataAccess.bocApi.GetAccountBalance(id, "5710bba5d42604e4072d1e92");
             if (transfer == null)
             {
@@ -41,13 +53,18 @@ namespace CodeDuo.MobileApi.Controllers
                 DataAccess.Transaction newTransaction = new DataAccess.Transaction();
                 newTransaction.Amount = (decimal)amount;
                 newTransaction.CreatedDate = DateTime.Now;
-                newTransaction.Currency = "EUR";
+                newTransaction.Currency =currency;
                 newTransaction.FromAccountId = user.IBAN;
                 newTransaction.MerchantId = merchant.Id;
                 newTransaction.MerchantReference = reference;
                 newTransaction.Status = transfer.status;
                 newTransaction.ToAccountId = merchant.IBAN;
                 newTransaction.UserId = user.Id;
+                if (currency=="BTC")
+                {
+                    newTransaction.FromAccountId = "";
+                    newTransaction.ToAccountId = "";
+                }
                 var customers = entities.Transactions.Add(newTransaction);
 
                 entities.SaveChanges();

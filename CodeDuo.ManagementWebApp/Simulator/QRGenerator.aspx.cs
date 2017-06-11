@@ -80,11 +80,34 @@ namespace CodeDuo.ManagementWebApp.Simulator
             }
         }
 
+        protected void btnContactDetails_Click(object sender, EventArgs e)
+        {
+            string code = string.Concat(this.txtType.Text, ";", this.txtContactID.Text, ";", this.txtcontactname.Text, ";", this.txtcontactlastname.Text, this.txtDefaultCurrency.Text, this.txtalternateCurrency.Text, this.txtcontactDOB.Text, this.txtLanguage.Text);
+            QRCodeGenerator qrGenerator = new QRCodeGenerator();
+            QRCodeData qrCodeData = qrGenerator.CreateQrCode(code, QRCodeGenerator.ECCLevel.Q);
+            System.Web.UI.WebControls.Image imgBarCode = new System.Web.UI.WebControls.Image();
+            imgBarCode.Height = 150;
+            imgBarCode.Width = 150;
+            QRCode qrCode = new QRCode(qrCodeData);
+
+            using (Bitmap bitMap = qrCode.GetGraphic(20))
+            {
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    bitMap.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                    byte[] byteImage = ms.ToArray();
+                    imgBarCode.ImageUrl = "data:image/png;base64," + Convert.ToBase64String(byteImage);
+                }
+                plBarCode.Controls.Add(imgBarCode);
+            }
+        }
+
         protected void ddlAvailableQR_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.pnlMerchant.Visible = false;
             this.pnltrxP2B.Visible = false;
             this.pnltrxP2P.Visible = false;
+            this.pnlContact.Visible = false;
             this.plBarCode.Controls.Clear();
             switch (this.ddlAvailableQR.SelectedValue)
             {
@@ -96,6 +119,9 @@ namespace CodeDuo.ManagementWebApp.Simulator
                     break;
                 case "3":
                     this.pnltrxP2B.Visible = true;
+                    break;
+                case "4":
+                    this.pnlContact.Visible = true;
                     break;
                 default:
                     break;

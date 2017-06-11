@@ -21,6 +21,7 @@ namespace CodeDuo.MobileApi.Controllers
                 user = entities.Users.FirstOrDefault(e => e.Id == idint);
                 
             }
+            double rate=1;
             Models.AccountBalance accountBalance = new Models.AccountBalance();
             switch (currency)
             {
@@ -30,6 +31,8 @@ namespace CodeDuo.MobileApi.Controllers
                 case "BTC":
                     accountBalance = DataAccess.bocApi.GetAccountBalance(user.AccountId, "5710bba5d42604e4072d1e92");
                     accountBalance.currency = "BTC";
+                    rate = DataAccess.bitCoinAPI.GetBitCoinRate();
+                    accountBalance.balance = accountBalance.balance / rate;
                     break;
                 default:
                     break;

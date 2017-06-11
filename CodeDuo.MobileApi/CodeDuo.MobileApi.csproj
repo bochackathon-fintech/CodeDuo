@@ -142,6 +142,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AcceptPaymentsController.cs" />
     <Compile Include="Controllers\AccountsController.cs" />
+    <Compile Include="Controllers\ATMController.cs" />
     <Compile Include="Controllers\TransfersController.cs" />
     <Compile Include="Controllers\TransactionsViewController.cs" />
     <Compile Include="DataAccess\bitCoinAPI.cs" />
@@ -179,6 +180,7 @@
     </Compile>
     <Compile Include="Models\AcceptPayments.cs" />
     <Compile Include="Models\AccountBalance.cs" />
+    <Compile Include="Models\ATM.cs" />
     <Compile Include="Models\Bank.cs" />
     <Compile Include="Models\Transfer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

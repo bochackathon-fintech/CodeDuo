@@ -179,6 +179,10 @@
     <Content Include="Connected Services\codeduotestAzureStorage\ConnectedService.json" />
     <None Include="Properties\PublishProfiles\CodeDuoManagementWebApp - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="images\bitcoin.png" />
+    <Content Include="images\dash.png" />
+    <Content Include="images\dogecoin.jpg" />
+    <Content Include="images\litecoin.png" />
     <Content Include="Merchants\AddMerchant.aspx" />
     <Content Include="Administration\ViewMerchants.aspx" />
     <Content Include="Scripts\bootstrap.js" />

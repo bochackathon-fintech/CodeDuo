@@ -6,7 +6,28 @@
         <h1>AllPay</h1>
         <p class="lead"> AllPay is an innovative Mobile App that enables Mobile Payments and Transfers using QR Codes. 
         </p>
-        <p> <asp:PlaceHolder ID="plBarCode" runat="server" /></p>
+          <div class="row">
+              <div class="col-md-2">
+                  <asp:PlaceHolder ID="plBarCode" runat="server" />
+                  </div>
+                <div class="col-md-2">
+                    
+                    <asp:Image ID="imgbitcoin" ImageUrl="~/images/bitcoin.png" Width="120px" Height="120px" runat="server" />
+                  </div>
+               <div class="col-md-2">
+                    
+                    <asp:Image ID="imgdash" ImageUrl="~/images/dash.png" Width="120px" Height="120px" runat="server" />
+                  </div>
+               <div class="col-md-2">
+                    
+                    <asp:Image ID="imglitecoin" ImageUrl="~/images/litecoin.png" Width="120px" Height="120px" runat="server" />
+                  </div>
+               <div class="col-md-2">
+                    
+                    <asp:Image ID="imgdogecoin" ImageUrl="~/images/dogecoin.jpg" Width="120px" Height="120px" runat="server" />
+                  </div>
+              </div>
+        <%--<p> <asp:PlaceHolder ID="plBarCode" runat="server" /></p>--%>
         <%--<p><a href="http://www.asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>--%>
     </div>
 
