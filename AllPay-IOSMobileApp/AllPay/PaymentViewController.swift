@@ -24,9 +24,14 @@ class PaymentViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
     private var m_Message: String?
     
     private var m_PaymentRecord : PaymentRecord?
-
     private var m_MerchantValid : Bool?
+    private var m_SpenderID : Int = 1;
+    private var m_API : ALLPayRestAPIManager?
+    private var m_CameraLightOn :Bool = false
     
+    static let s_id_pattern = "^([0-1]|[a-zA-Z])+$"
+    static let s_amount_pattern = "^[1-9][0-1]+.$"
+
     
     
     @IBAction func makePayment(_ sender: Any)
@@ -58,7 +63,31 @@ class PaymentViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
                 {
                     // Fingerprint recognized
                     // Go to view controller
-                    self.navigateToAuthenticatedViewController()
+                   //self.navigateToAuthenticatedViewController((onCompletion: (Bool) -> Void)
+                   self.m_API?.MakePayment(spenderID:self.m_SpenderID, paymentRecord : self.m_PaymentRecord!, onCompletion: { (finished:Bool,accept:Bool) -> Void in
+                        if ( finished && accept )
+                        {
+                    print("success payment")
+                            //self.m_MerchantLabel.backgroundColor = .green
+                            //self.makePaymentButton.isEnabled = true
+                            self.m_PaymentRecord?.PaymentStatus = true
+                            self.navigateToAuthenticatedViewController(status: "success")
+                        }
+                            
+                        else
+                        {
+                    print("fail payment")
+                            self.m_PaymentRecord?.PaymentStatus = false
+
+
+                            //self.m_MerchantLabel.backgroundColor = .red
+                            //self.makePaymentButton.isEnabled = false
+                            self.navigateToAuthenticatedViewController(status: "fail")
+                        }
+                    })
+                    
+                    
+
                     
                 }
                 
@@ -68,7 +97,7 @@ class PaymentViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
     {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
+        self.m_API = ALLPayRestAPIManager()
         
         let captureDevice = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
         
@@ -130,6 +159,7 @@ class PaymentViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
     
     func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!)
     {
+        typealias FindMerchantStatusCompleted = () -> ()
         
         // Check if the metadataObjects array is not nil and it contains at least one object.
         if metadataObjects == nil || metadataObjects.count == 0
@@ -148,26 +178,42 @@ class PaymentViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
             let barCodeObject = self.m_VideoPreviewLayer?.transformedMetadataObject(for: metadataObj)
             qrCodeFrameView?.frame = barCodeObject!.bounds
             
-            if metadataObj.stringValue != nil {
+            if metadataObj.stringValue != nil
+            {
+                self.m_CaptureSession?.stopRunning()
                 self.m_Message = metadataObj.stringValue
                 let valuesArray : [String] = self.m_Message!.components(separatedBy: ";")
                 
-                self.m_MerchantLabel.text = valuesArray[0]
-                self.m_AmountLabel.text = valuesArray[1]
-                
-                self.m_PaymentRecord = PaymentRecord(merchantId: valuesArray[0],amount: Double(valuesArray[1])!, referencedID: valuesArray[2])
-                
-                self.m_MerchantValid = self.GetMerchantStatus()
-                print(self.m_MerchantValid!)
-                if(self.m_MerchantValid!)
+                if( 4 == valuesArray.count)
                 {
-                    print(self.m_PaymentRecord!)
-                    self.m_CaptureSession?.stopRunning()
+                    self.m_PaymentRecord = PaymentRecord(merchantId: valuesArray[0],amount: Double(valuesArray[1])!, referencedID: valuesArray[2],currencyID:valuesArray[3])
+
+                    self.m_MerchantLabel.text = self.m_PaymentRecord?.MerchantID
+                    self.m_AmountLabel.text = self.m_PaymentRecord?.Amount
+                    
+                    self.m_API?.AcceptPayment(merchantID:self.m_PaymentRecord!.MerchantID, onCompletion: { (finished:Bool,accept:Bool) -> Void in
+                        if ( finished && accept )
+                        {
+                            self.m_MerchantLabel.backgroundColor = .green
+                            self.makePaymentButton.isEnabled = true
+                        }
+                        else
+                        {
+                            self.m_MerchantLabel.backgroundColor = .red
+                            self.makePaymentButton.isEnabled = false
+                        }
+                    })
+
+
                 }
                 else
                 {
-                    
+                    showAlertWithTitle(title: "Format Error", message: "Illegible QR Code Code")
+
                 }
+                //self.FindMerchantStatus(onCompletion: ( ) -> () )
+
+
             }
         }
     }
@@ -271,73 +317,54 @@ class PaymentViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
     /**
      This method will push the authenticated view controller onto the UINavigationController stack
      */
-    func navigateToAuthenticatedViewController()
+    func navigateToAuthenticatedViewController(status:String)
     {
-        let urlString = "http://codeduomobileapi.azurewebsites.net/api/Transfers/1/\(self.m_PaymentRecord!.MerchantID)/\(self.m_PaymentRecord!.Amount)/\(self.m_PaymentRecord!.ReferenceID)"
         
-        let url = URL(string: urlString)
-        
-        URLSession.shared.dataTask(with:url!) { (data, response, error) in
-            if error != nil {
-                print(error!)
-            } else {
-                do {
-                    
-                    let parsedData = try JSONSerialization.jsonObject(with: data!) as! [String:Any]
-                    
-                    DispatchQueue.main.async()
-                    {
-                        
-                        self.m_PaymentRecord?.PaymentStatus = (parsedData["status"] as! String) == "success"
-                    }
-                } catch let error as NSError {
-                    print(error)
-                }
-            }
-            
-            }.resume()
-        
-        //showAlertWithTitle(title: "Testing This", message: "PRR")
-    }
-    
-    func GetMerchantStatus() -> Bool
-    {
-        let urlString = "http://codeduomobileapi.azurewebsites.net/api/AcceptPayments/\(self.m_PaymentRecord!.MerchantID)"
-        
-        let url = URL(string: urlString)
-        
-        var merchantEligibility : String = "false"
-        
-        URLSession.shared.dataTask(with:url!) { (data, response, error) in
-            if error != nil {
-                print(error!)
-            } else {
-                do {
-                    
-                    let parsedData = try JSONSerialization.jsonObject(with: data!) as! [String:Any]
-                    
-                    DispatchQueue.main.async() {
-                        
-                        
-                        
-                        merchantEligibility = parsedData["CanAccept"] as! String
-                       
-                    }
-                } catch let error as NSError {
-                    print(error)
-                }
-            }
-            
-            }.resume()
-        
-        if( merchantEligibility == "true")
+        if(status == "success")
         {
-            return true
+            showAlertWithTitle(title: "Payment Status", message: "Succes")
         }
         else
         {
-            return false
+            showAlertWithTitle(title: "Payment Status", message: "Failed")
         }
     }
     
+    func FindMerchantStatus(onCompletion: @escaping ( _ : Bool) -> Void)
+    {
+        
+
+
+    }
+
+    
+    @IBAction func ViewSwipe(_ sender: UISwipeGestureRecognizer)
+    {
+        if sender.direction == UISwipeGestureRecognizerDirection.right
+        {
+            print("Swipe Right")
+            self.toggleFlash()
+        }
+        else if sender.direction == UISwipeGestureRecognizerDirection.left
+        {
+            print("Swipe Left")
+            self.toggleFlash()
+        }
+        
+    }
+    
+    func toggleFlash()
+    {
+        if let device = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo), device.hasTorch {
+            do {
+                try device.lockForConfiguration()
+                let torchOn = !device.isTorchActive
+                try device.setTorchModeOnWithLevel(1.0)
+                device.torchMode = torchOn ? .on : .off
+                device.unlockForConfiguration()
+            } catch {
+                print("error")
+            }
+        }
+    }
 }
